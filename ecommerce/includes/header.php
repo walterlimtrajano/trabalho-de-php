@@ -8,10 +8,10 @@
 <body>
     <header>
         <h1>🛍️ E-commerce</h1>
-        <nav>
-            <a href="/ecommerce/index.php">Início</a> |
-            <a href="/ecommerce/produtos/listar.php">Produtos</a> |
-            <a href="/ecommerce/carrinho/visualizar.php">Carrinho</a>
-        </nav>
+    <nav>
+        <a href="/trabalho-de-php/ecommerce/index.php">Início</a> |
+        <a href="/trabalho-de-php/ecommerce/produtos/listar.php">Produtos</a> |
+        <a href="/trabalho-de-php/ecommerce/carrinho/visualizar.php">Carrinho</a>
+    </nav>
         <hr>
     </header>
