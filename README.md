@@ -3,7 +3,7 @@
 
 ## 👥 Equipe
 - **Líder do Projeto:** Lucas José da Silva  
-- **Desenvolvedores:** Walterlim Trajano da Silva Jr e Gabriel Rabelo Barbosa  
+- **Desenvolvedores:** Walterlim Trajano da Silva Júnior e Gabriel Rabelo Barbosa  
 - **Designer Gráfico:** José Monteiro da Silva Neto  
 - **QA (Testes):** Hebert Filipe da Silva  
 - **Analista de Requisitos:** José Júlio Regis  
@@ -71,12 +71,12 @@ Cada membro terá sua **branch própria** no repositório:
 
 | Membro | Função | Nome da Branch |
 |:--------|:--------|:----------------|
-| Lucas José | Líder / Backend | `feature/lucas-backend` |
-| Walterlim Trajano | Desenvolvedor | `feature/walterlim-dev` |
-| Gabriel Rabelo | Desenvolvedor | `feature/gabriel-dev` |
-| José Monteiro | Designer Gráfico | `feature/jose-design` |
-| Hebert Filipe | QA | `feature/hebert-qa` |
-| José Júlio | Analista de Requisitos | `feature/julio-requisitos` |
+| Lucas José | Líder / Backend | `feature/lucasjose-dev` |
+| Walterlim Trajano | Desenvolvedor | `feature/walterlimtrajano` |
+| Gabriel Rabelo | Desenvolvedor | `feature/gabrielbarbosa16` |
+| José Monteiro | Designer Gráfico | `feature/monteironetoh` |
+| Hebert Filipe | QA | `feature/hebertfilipe` |
+| José Júlio | Analista de Requisitos | `feature/julio-regis` |
 
 > 📝 Após finalizar cada tarefa, os commits devem ser feitos em suas branches e revisados antes do merge na branch principal (`main`).
 
@@ -85,13 +85,13 @@ Cada membro terá sua **branch própria** no repositório:
 ## ⚙️ Como Executar o Projeto
 1. Clone o repositório:
    ```bash
-   git clone https://github.com/seuusuario/projeto-ecommerce.git
+   git clone https://github.com/walterlimtrajano/trabalho-de-php.git
    ```
 2. Importe o banco de dados MySQL.
 3. Coloque os arquivos no diretório do servidor local (ex: `htdocs`).
 4. Acesse pelo navegador:
    ```
-   http://localhost/ecommerce
+   http://localhost/trabalho-de-php/ecommerce/index.php
    ```
 
 ---
