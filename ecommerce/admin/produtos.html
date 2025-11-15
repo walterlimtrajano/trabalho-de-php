@@ -1,0 +1,88 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Listagem de Produtos</title>
+
+    <link rel="stylesheet" href="styleprodutos.css">
+
+</head>
+<body>
+
+    <nav class="navbar">
+        <h2>Painel Administrativo</h2>
+
+        <ul class="menu-links">
+            <li><a href="index.html">Início</a></li>
+            <li><a href="crud.html">Gerenciamento</a></li>
+            <li><a href="produtos.html" class="active">Produtos</a></li>
+        </ul>
+    </nav>
+
+    <main class="container">
+
+        <h1 class="titulo">Listagem de Produtos</h1>
+
+        <a href="crud.html" class="btn-voltar">⟵ Voltar ao Gerenciamento de Produtos</a>
+
+        <section class="tabela-container">
+
+            <table class="tabela-produtos">
+                <thead>
+                    <tr>
+                        <th>ID</th>
+                        <th>Nome do Produto</th>
+                        <th>Categoria</th>
+                        <th>Preço</th>
+                        <th>Estoque</th>
+                        <th>Ações</th>
+                    </tr>
+                </thead>
+
+                <tbody>
+                    <tr>
+                        <td>1</td>
+                        <td>Mouse Gamer RGB</td>
+                        <td>Periféricos</td>
+                        <td>R$ 129,90</td>
+                        <td>34</td>
+                        <td>
+                            <button class="btn-editar">Editar</button>
+                            <button class="btn-excluir">Excluir</button>
+                        </td>
+                    </tr>
+
+                    <tr>
+                        <td>2</td>
+                        <td>Notebook Dell i5</td>
+                        <td>Computadores</td>
+                        <td>R$ 3.499,00</td>
+                        <td>12</td>
+                        <td>
+                            <button class="btn-editar">Editar</button>
+                            <button class="btn-excluir">Excluir</button>
+                        </td>
+                    </tr>
+
+                    <tr>
+                        <td>3</td>
+                        <td>Teclado Mecânico</td>
+                        <td>Periféricos</td>
+                        <td>R$ 249,90</td>
+                        <td>57</td>
+                        <td>
+                            <button class="btn-editar">Editar</button>
+                            <button class="btn-excluir">Excluir</button>
+                        </td>
+                    </tr>
+
+                </tbody>
+            </table>
+
+        </section>
+
+    </main>
+
+</body>
+</html>
