@@ -24,7 +24,7 @@
 
         <?php
         if ($_SERVER["REQUEST_METHOD"] === "POST") {
-            echo "<p style='text-align:center; margin-top:10px;'><b>🎉 Cadastro enviado com sucesso! (Simulação)</b></p>";
+            echo "<p style='text-align:center; margin-top:10px;'><b>🎉 Cadastro enviado com sucesso!</b></p>";
         }
         ?>
     </section>
