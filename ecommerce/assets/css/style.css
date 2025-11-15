@@ -5,6 +5,19 @@ body {
     padding: 0;
 }
 
+main {
+    padding: 20px;
+    max-width: 900px;
+    margin: 20px auto;
+    background: #ffffff;
+    border-radius: 12px;
+    box-shadow: 0 4px 10px rgba(0,0,0,0.15);
+}
+
+h2 {
+    color: #4a90e2;
+}
+
 header {
     background: #4a90e2;
     color: white;
@@ -27,17 +40,35 @@ nav a:hover {
     text-shadow: 0 0 5px #ffe066;
 }
 
-main {
-    padding: 20px;
-    max-width: 900px;
-    margin: 20px auto;
-    background: #ffffff;
-    border-radius: 12px;
-    box-shadow: 0 4px 10px rgba(0,0,0,0.15);
+footer {
+    text-align: center;
+    padding: 15px;
+    background: #4a90e2;
+    color: white;
+    margin-top: 20px;
+    box-shadow: 0 -2px 6px rgba(0,0,0,0.2);
 }
 
-h2 {
-    color: #4a90e2;
+.btn {
+    padding: 8px 12px;
+    background: #008cff;
+    color: white;
+    border-radius: 8px;
+    text-decoration: none;
+    font-size: 14px;
+    transition: 0.2s;
+}
+
+.btn:hover {
+    background: #006ed6;
+}
+
+.btn.comprar {
+    background: #00c03a;
+}
+
+.btn.comprar:hover {
+    background: #00992d;
 }
 
 .lista-produtos {
@@ -92,35 +123,4 @@ h2 {
     display: flex;
     justify-content: center;
     gap: 10px;
-}
-
-.btn {
-    padding: 8px 12px;
-    background: #008cff;
-    color: white;
-    border-radius: 8px;
-    text-decoration: none;
-    font-size: 14px;
-    transition: 0.2s;
-}
-
-.btn:hover {
-    background: #006ed6;
-}
-
-.btn.comprar {
-    background: #00c03a;
-}
-
-.btn.comprar:hover {
-    background: #00992d;
-}
-
-footer {
-    text-align: center;
-    padding: 15px;
-    background: #4a90e2;
-    color: white;
-    margin-top: 20px;
-    box-shadow: 0 -2px 6px rgba(0,0,0,0.2);
 }

@@ -97,7 +97,7 @@ $total = $result->num_rows;
     <p>Nenhum produto encontrado com os filtros selecionados.</p>
 <?php endif; ?>
 
-</div> <!-- fim container -->
+</div>
 
 <?php
 $conn->close();
