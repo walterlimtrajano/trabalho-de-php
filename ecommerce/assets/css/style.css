@@ -124,3 +124,89 @@ footer {
     justify-content: center;
     gap: 10px;
 }
+
+/* --- Header com layout flex e botão de autenticação no canto direito --- */
+.site-header {
+    background: #4a90e2; /* mantém o padrão existente */
+    color: white;
+}
+
+.header-inner {
+    display: flex;
+    align-items: center;
+    justify-content: space-between; /* marca à esquerda, nav centro/left, auth à direita */
+    gap: 20px;
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 18px 20px;
+}
+
+/* Marca (logo/texto) */
+.brand h1 {
+    margin: 0;
+    font-size: 1.6rem;
+}
+
+/* Ajustes na navegação */
+.main-nav {
+    flex: 1; /* ocupa espaço central */
+    text-align: center;
+}
+
+/* Caixa da ação de autenticação (canto direito) */
+.auth {
+    display: flex;
+    align-items: center;
+    justify-content: flex-end;
+}
+
+/* Botão de autenticação (visual simples, já compatível com .btn) */
+.auth-btn {
+    padding: 8px 14px;
+    border-radius: 8px;
+    background: #ffdd57;
+    color: #2b2b2b;
+    text-decoration: none;
+    font-weight: 700;
+    box-shadow: 0 2px 6px rgba(0,0,0,0.12);
+}
+
+.auth-btn:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 6px 12px rgba(0,0,0,0.15);
+}
+
+/* --- Estilos mínimos para a página de login (esqueleto) --- */
+.auth-section {
+    max-width: 420px;
+    margin: 30px auto;
+    background: #fff;
+    padding: 18px;
+    border-radius: 10px;
+    box-shadow: 0 4px 10px rgba(0,0,0,0.08);
+}
+
+.auth-form {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+}
+
+.auth-form label {
+    font-weight: 600;
+    font-size: 0.95rem;
+}
+
+.auth-form input[type="email"],
+.auth-form input[type="password"] {
+    padding: 10px;
+    border-radius: 8px;
+    border: 1px solid #ccc;
+    font-size: 1rem;
+}
+
+.register-suggestion {
+    margin-top: 12px;
+    font-size: 0.95rem;
+    text-align: center;
+}
