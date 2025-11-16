@@ -1,3 +1,8 @@
+<?php
+    if (session_status() === PHP_SESSION_NONE) {
+    session_start();
+}
+?>
 <!DOCTYPE html>
 <html lang="pt-BR">
 <head>
@@ -7,8 +12,8 @@
     <link rel="stylesheet" href="/trabalho-de-php/ecommerce/assets/css/style.css">
 </head>
 <body>
-<header class="site-header">
 
+<header class="site-header">
     <div class="header-inner">
 
         <div class="brand">
@@ -21,9 +26,15 @@
             <a href="/trabalho-de-php/ecommerce/carrinho/visualizar.php">Carrinho</a>
         </nav>
 
-        <div class="auth">
-            <a href="/trabalho-de-php/ecommerce/login.php" class="btn auth-btn">Entrar / Cadastrar</a>
-        </div>
+        <nav class="user-nav">
+            <?php if (isset($_SESSION['usuario'])): ?>
+                <span>Olá, <?php echo $_SESSION['usuario']['nome']; ?></span>
+                <a href="/trabalho-de-php/ecommerce/admin/logout.php">Sair</a>
+            <?php else: ?>
+                <a href="/trabalho-de-php/ecommerce/admin/login.php">Entrar</a>
+                <a href="/trabalho-de-php/ecommerce/admin/cadastrar.php">Cadastrar</a>
+            <?php endif; ?>
+        </nav>
 
     </div>
     <hr>
