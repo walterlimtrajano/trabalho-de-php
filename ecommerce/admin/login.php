@@ -38,12 +38,12 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 <main class="container-pagina">
     <h2>Entrar</h2>
 
-    <form method="POST" class="auth-form">
+    <form method="POST" class="auth-form" onsubmit="return validarLogin()">
         <label>E-mail</label>
-        <input type="email" name="email" required>
+        <input type="email" name="email" id="email" required>
 
         <label>Senha</label>
-        <input type="password" name="senha" required>
+        <input type="password" name="senha" id="senha" required>
 
         <button class="btn" type="submit">Entrar</button>
 
@@ -54,3 +54,5 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 </main>
 
 <?php include '../includes/footer.php'; ?>
+
+<script src="../assets/js/validacao.js"></script>

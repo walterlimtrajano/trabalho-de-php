@@ -36,16 +36,20 @@ if ($_SERVER["REQUEST_METHOD"] === "POST") {
     <h2>📝 Criar conta</h2>
 
     <section class="auth-section">
-        <form class="auth-form" method="POST">
+
+        <form class="auth-form" method="POST" onsubmit="return validarCadastro()">
 
             <label>Nome completo</label>
-            <input type="text" name="nome" required>
+            <input type="text" name="nome" id="nome" required>
 
             <label>E-mail</label>
-            <input type="email" name="email" required>
+            <input type="email" name="email" id="email" required>
 
             <label>Senha</label>
-            <input type="password" name="senha" required>
+            <input type="password" name="senha" id="senha" required>
+
+            <label>Confirmar senha</label>
+            <input type="password" id="confirmar" required>
 
             <button class="btn" type="submit">Cadastrar</button>
         </form>
@@ -57,3 +61,5 @@ if ($_SERVER["REQUEST_METHOD"] === "POST") {
 </main>
 
 <?php include '../includes/footer.php'; ?>
+
+<script src="../assets/js/validacao.js"></script>

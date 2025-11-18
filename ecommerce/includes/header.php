@@ -12,6 +12,8 @@
     <link rel="stylesheet" href="/trabalho-de-php/ecommerce/assets/css/style.css">
 </head>
 <body>
+    
+<div id="alert-container"></div>
 
 <header class="site-header">
     <div class="header-inner">

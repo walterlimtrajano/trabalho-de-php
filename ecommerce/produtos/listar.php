@@ -76,7 +76,7 @@ $total  = $result->num_rows;
 <?php while($row = $result->fetch_assoc()): ?>
     <div class="produto-card">
 
-        <img src="../uploads/<?= $row['imagem'] ?>" alt="<?= $row['nome'] ?>">
+        <img src="../assets/img/<?= $row['imagem'] ?>" alt="<?= $row['nome'] ?>">
 
         <h3><?= htmlspecialchars($row['nome']) ?></h3>
 

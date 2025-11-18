@@ -25,7 +25,7 @@ $produto = $result->fetch_assoc();
 <h2><?= htmlspecialchars($produto['nome']) ?></h2>
 
 <?php if (!empty($produto['imagem'])): ?>
-    <img src="../uploads/<?= htmlspecialchars($produto['imagem']) ?>" 
+    <img src="../assets/img/<?= htmlspecialchars($produto['imagem']) ?>" 
          alt="<?= htmlspecialchars($produto['nome']) ?>" 
          style="width:300px;height:300px;object-fit:cover;">
 <?php endif; ?>

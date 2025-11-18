@@ -58,7 +58,7 @@ $totalGeral = 0;
         ?>
         <div class="produto-card">
             <?php if (!empty($row['imagem'])): ?>
-                <img src="../uploads/<?= htmlspecialchars($row['imagem']) ?>" alt="">
+                <img src="../assets/img/<?= htmlspecialchars($row['imagem']) ?>" alt="">
             <?php else: ?>
                 <img src="../assets/img/placeholder.png" alt="">
             <?php endif; ?>
