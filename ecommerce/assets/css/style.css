@@ -125,42 +125,37 @@ footer {
     gap: 10px;
 }
 
-/* --- Header com layout flex e botão de autenticação no canto direito --- */
 .site-header {
-    background: #4a90e2; /* mantém o padrão existente */
+    background: #4a90e2;
     color: white;
 }
 
 .header-inner {
     display: flex;
     align-items: center;
-    justify-content: space-between; /* marca à esquerda, nav centro/left, auth à direita */
+    justify-content: space-between;
     gap: 20px;
     max-width: 1200px;
     margin: 0 auto;
     padding: 18px 20px;
 }
 
-/* Marca (logo/texto) */
 .brand h1 {
     margin: 0;
     font-size: 1.6rem;
 }
 
-/* Ajustes na navegação */
 .main-nav {
-    flex: 1; /* ocupa espaço central */
+    flex: 1;
     text-align: center;
 }
 
-/* Caixa da ação de autenticação (canto direito) */
 .auth {
     display: flex;
     align-items: center;
     justify-content: flex-end;
 }
 
-/* Botão de autenticação (visual simples, já compatível com .btn) */
 .auth-btn {
     padding: 8px 14px;
     border-radius: 8px;
@@ -176,7 +171,6 @@ footer {
     box-shadow: 0 6px 12px rgba(0,0,0,0.15);
 }
 
-/* --- Estilos mínimos para a página de login (esqueleto) --- */
 .auth-section {
     max-width: 420px;
     margin: 30px auto;

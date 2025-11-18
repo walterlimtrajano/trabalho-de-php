@@ -12,11 +12,16 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         $user = $query->fetch_assoc();
 
         if (password_verify($senha, $user['senha'])) {
+
             $_SESSION['usuario'] = [
                 'id' => $user['id'],
                 'nome' => $user['nome'],
                 'email' => $user['email']
             ];
+
+            $_SESSION['usuario_id'] = $user['id'];
+            $_SESSION['usuario_nome'] = $user['nome'];
+
             header("Location: ../index.php");
             exit;
         } else {
