@@ -1,4 +1,11 @@
 <?php
+session_start();
+
+if (!isset($_SESSION['usuario_id'])) {
+    header("Location: ../admin/login.php");
+    exit;
+}
+
 include '../includes/conexao.php';
 
 $id = isset($_GET['id']) ? intval($_GET['id']) : 0;

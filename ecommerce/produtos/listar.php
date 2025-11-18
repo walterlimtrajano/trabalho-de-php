@@ -2,104 +2,107 @@
 include '../includes/conexao.php';
 include '../includes/header.php';
 
-$buscar = isset($_GET['buscar']) ? $_GET['buscar'] : '';
-$ordem = isset($_GET['ordem']) ? $_GET['ordem'] : '';
-
-$sql = "SELECT * FROM produtos WHERE 1=1";
-
-if (!empty($buscar)) {
-    $buscarEscapado = $conn->real_escape_string($buscar);
-    $sql .= " AND nome LIKE '%$buscarEscapado%'";
+if (session_status() === PHP_SESSION_NONE) {
+    session_start();
 }
 
-switch ($ordem) {
+$buscar  = $_GET['buscar'] ?? '';
+$ordenar = $_GET['ordem']  ?? '';
+
+$sql = "
+    SELECT 
+        p.*, 
+        COALESCE(AVG(a.nota), 0) AS media_avaliacao
+    FROM produtos p
+    LEFT JOIN avaliacao a ON a.produto_id = p.id
+    WHERE 1=1
+";
+
+if (!empty($buscar)) {
+    $b = $conn->real_escape_string($buscar);
+    $sql .= " AND p.nome LIKE '%$b%'";
+}
+
+$sql .= " GROUP BY p.id ";
+
+switch ($ordenar) {
     case "preco_asc":
-        $sql .= " ORDER BY preco ASC";
-        break;
+        $sql .= " ORDER BY p.preco ASC"; break;
     case "preco_desc":
-        $sql .= " ORDER BY preco DESC";
-        break;
+        $sql .= " ORDER BY p.preco DESC"; break;
     case "nome_asc":
-        $sql .= " ORDER BY nome ASC";
-        break;
+        $sql .= " ORDER BY p.nome ASC"; break;
     case "nome_desc":
-        $sql .= " ORDER BY nome DESC";
-        break;
+        $sql .= " ORDER BY p.nome DESC"; break;
+    case "avaliacao_desc":
+        $sql .= " ORDER BY media_avaliacao DESC"; break;
+    case "avaliacao_asc":
+        $sql .= " ORDER BY media_avaliacao ASC"; break;
     default:
-        $sql .= " ORDER BY id DESC";
-        break;
+        $sql .= " ORDER BY p.id DESC";
 }
 
 $result = $conn->query($sql);
-$total = $result->num_rows;
+$total  = $result->num_rows;
 ?>
 
 <div class="container-pagina">
 
 <h2>Lista de Produtos (<?= $total ?> encontrados)</h2>
 
-<p style="font-size: 16px; color: #4a90e2; margin-top: -10px;">
-    🌟 Explore nossas promoções e produtos mais procurados!
-</p>
+<form class="barra-filtro" method="get">
 
-<div class="filtros" style="margin: 20px 0; display: flex; gap: 10px; flex-wrap: wrap;">
-    <form method="get" style="display: flex; gap: 10px; flex-wrap: wrap;">
-        <input 
-            type="text" 
-            name="buscar" 
-            value="<?= htmlspecialchars($buscar) ?>"
-            placeholder="Buscar produto..." 
-            style="padding: 8px; border-radius: 8px; border: 1px solid #bbb;"
-        >
+    <input 
+        type="text" 
+        name="buscar"
+        placeholder="Buscar produto..."
+        value="<?= htmlspecialchars($buscar) ?>"
+    >
 
-        <select name="ordem" style="padding: 8px; border-radius: 8px; border: 1px solid #bbb;">
-            <option value="">Ordenar por</option>
-            <option value="preco_asc"  <?= $ordem == 'preco_asc'  ? 'selected' : '' ?>>Preço menor → maior</option>
-            <option value="preco_desc" <?= $ordem == 'preco_desc' ? 'selected' : '' ?>>Preço maior → menor</option>
-            <option value="nome_asc"   <?= $ordem == 'nome_asc'   ? 'selected' : '' ?>>Nome A → Z</option>
-            <option value="nome_desc"  <?= $ordem == 'nome_desc'  ? 'selected' : '' ?>>Nome Z → A</option>
-        </select>
+    <select name="ordem">
+        <option value="">Ordenar por</option>
+        <option value="preco_asc"        <?= $ordenar=='preco_asc' ? 'selected' : '' ?>>Preço ↑</option>
+        <option value="preco_desc"       <?= $ordenar=='preco_desc' ? 'selected' : '' ?>>Preço ↓</option>
+        <option value="nome_asc"         <?= $ordenar=='nome_asc' ? 'selected' : '' ?>>Nome A-Z</option>
+        <option value="nome_desc"        <?= $ordenar=='nome_desc' ? 'selected' : '' ?>>Nome Z-A</option>
+        <option value="avaliacao_desc"   <?= $ordenar=='avaliacao_desc' ? 'selected' : '' ?>>Melhor avaliados</option>
+        <option value="avaliacao_asc"    <?= $ordenar=='avaliacao_asc' ? 'selected' : '' ?>>Pior avaliados</option>
+    </select>
 
-        <button class="btn">Filtrar</button>
-    </form>
-</div>
+    <button type="submit">Filtrar</button>
+</form>
 
-<?php if ($total > 0): ?>
-    <div class="lista-produtos">
+<div class="lista-produtos">
+<?php while($row = $result->fetch_assoc()): ?>
+    <div class="produto-card">
 
-    <?php while($row = $result->fetch_assoc()): ?>
-        <div class="produto-card">
-            <?php if (!empty($row['imagem'])): ?>
-                <img src="../uploads/<?= htmlspecialchars($row['imagem']) ?>" alt="<?= htmlspecialchars($row['nome']) ?>">
-            <?php else: ?>
-                <img src="../assets/img/placeholder.png" alt="Sem imagem">
-            <?php endif; ?>
+        <img src="../uploads/<?= $row['imagem'] ?>" alt="<?= $row['nome'] ?>">
 
-            <h3><?= htmlspecialchars($row['nome']) ?></h3>
+        <h3><?= htmlspecialchars($row['nome']) ?></h3>
 
-            <?php if (!empty($row['descricao'])): ?>
-                <p class="descricao"><?= htmlspecialchars($row['descricao']) ?></p>
-            <?php endif; ?>
+        <p style="color:#f5a623; font-size:14px;">
+            ⭐ <?= number_format($row['media_avaliacao'], 1, ',', '.') ?> / 5
+        </p>
 
-            <p class="preco">
-                R$ <?= number_format($row['preco'], 2, ',', '.') ?>
-            </p>
+        <p class="preco">R$ <?= number_format($row['preco'], 2, ',', '.') ?></p>
 
-            <div class="acoes">
-                <a href="detalhes.php?id=<?= $row['id'] ?>" class="btn">Ver detalhes</a>
+        <div class="acoes">
+            <a href="detalhes.php?id=<?= $row['id'] ?>" class="btn">Ver detalhes</a>
+
+            <?php if (isset($_SESSION['usuario_id'])): ?>
                 <a href="../carrinho/adicionar.php?id=<?= $row['id'] ?>" class="btn comprar">Comprar</a>
-            </div>
+            <?php else: ?>
+                <a href="../admin/login.php" class="btn comprar" style="background:#ccc;">Fazer login</a>
+            <?php endif; ?>
         </div>
-    <?php endwhile; ?>
 
     </div>
-<?php else: ?>
-    <p>Nenhum produto encontrado com os filtros selecionados.</p>
-<?php endif; ?>
+<?php endwhile; ?>
+</div>
 
 </div>
 
-<?php
+<?php 
 $conn->close();
 include '../includes/footer.php';
 ?>

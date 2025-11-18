@@ -33,6 +33,8 @@ $produto = $result->fetch_assoc();
 <p><?= !empty($produto['descricao']) ? htmlspecialchars($produto['descricao']) : 'Sem descrição disponível.' ?></p>
 <p>Preço: R$ <?= number_format($produto['preco'], 2, ',', '.') ?></p>
 
+<?php if (isset($_SESSION['usuario_id'])): ?>
+
 <form action="../carrinho/adicionar.php" method="get">
     <input type="hidden" name="id" value="<?= $produto['id'] ?>">
     <label>Quantidade:</label>
@@ -40,6 +42,13 @@ $produto = $result->fetch_assoc();
     <button type="submit" class="btn comprar">Adicionar ao Carrinho</button>
 </form>
 
+<?php else: ?>
+
+<p style="color:red; font-weight:bold; margin-top:10px;">
+    Faça <a href="../admin/login.php">login</a> para comprar este produto.
+</p>
+
+<?php endif; ?>
 <hr>
 
 <?php

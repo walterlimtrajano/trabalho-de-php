@@ -1,11 +1,16 @@
 <?php
+include '../includes/conexao.php';
 
 if (session_status() === PHP_SESSION_NONE) {
     session_start();
 }
 
-session_unset();
+if (isset($_SESSION['user_id'])) {
+    $userId = $_SESSION['user_id'];
+    $conn->query("DELETE FROM carrinho WHERE user_id = $userId");
+}
 
+session_unset();
 session_destroy();
 
 if (ini_get("session.use_cookies")) {
@@ -18,3 +23,4 @@ if (ini_get("session.use_cookies")) {
 
 header("Location: /trabalho-de-php/ecommerce/index.php");
 exit;
+?>

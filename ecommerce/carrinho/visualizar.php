@@ -1,34 +1,46 @@
 <?php
+session_start();
 include '../includes/conexao.php';
 include '../includes/header.php';
 
+if (!isset($_SESSION['user_id'])) $_SESSION['user_id'] = 0;
+$userIdAtual = $_SESSION['user_id'];
+
+if (!isset($_SESSION['ultimo_user'])) {
+    $_SESSION['ultimo_user'] = $userIdAtual;
+} elseif ($_SESSION['ultimo_user'] != $userIdAtual) {
+    $conn->query("DELETE FROM carrinho WHERE user_id = {$_SESSION['ultimo_user']}");
+    $_SESSION['ultimo_user'] = $userIdAtual;
+}
+
 if (isset($_GET['remover'])) {
     $idRemover = intval($_GET['remover']);
-    $conn->query("DELETE FROM carrinho WHERE id_produto = $idRemover");
+    $conn->query("DELETE FROM carrinho WHERE id_produto = $idRemover AND user_id = $userIdAtual");
 }
 
 if (isset($_GET['diminuir'])) {
     $id = intval($_GET['diminuir']);
-    $res = $conn->query("SELECT quantidade FROM carrinho WHERE id_produto = $id");
+    $res = $conn->query("SELECT quantidade FROM carrinho WHERE id_produto = $id AND user_id = $userIdAtual");
     if ($res && $res->num_rows > 0) {
         $qtd = $res->fetch_assoc()['quantidade'];
         if ($qtd > 1) {
-            $conn->query("UPDATE carrinho SET quantidade = quantidade - 1 WHERE id_produto = $id");
+            $conn->query("UPDATE carrinho SET quantidade = quantidade - 1 WHERE id_produto = $id AND user_id = $userIdAtual");
         } else {
-            $conn->query("DELETE FROM carrinho WHERE id_produto = $id");
+            $conn->query("DELETE FROM carrinho WHERE id_produto = $id AND user_id = $userIdAtual");
         }
     }
 }
 
 if (isset($_GET['aumentar'])) {
     $idAumentar = intval($_GET['aumentar']);
-    $conn->query("UPDATE carrinho SET quantidade = quantidade + 1 WHERE id_produto = $idAumentar");
+    $conn->query("UPDATE carrinho SET quantidade = quantidade + 1 WHERE id_produto = $idAumentar AND user_id = $userIdAtual");
 }
 
 $sql = "
     SELECT c.id_produto, p.nome, p.preco, p.descricao, p.imagem, c.quantidade 
     FROM carrinho c
     JOIN produtos p ON c.id_produto = p.id
+    WHERE c.user_id = $userIdAtual
     ORDER BY c.id_produto DESC
 ";
 
@@ -50,33 +62,36 @@ $totalGeral = 0;
             <?php else: ?>
                 <img src="../assets/img/placeholder.png" alt="">
             <?php endif; ?>
-
             <h3><?= htmlspecialchars($row['nome']) ?></h3>
             <p>Preço: R$ <?= number_format($row['preco'], 2, ',', '.') ?></p>
-
-            <p><strong>Quantidade:</strong></p>
             <div style="display:flex; gap:10px;">
                 <a class="btn btn-sm btn-secondary" href="?diminuir=<?= $row['id_produto'] ?>">–</a>
                 <span><?= $row['quantidade'] ?></span>
                 <a class="btn btn-sm btn-secondary" href="?aumentar=<?= $row['id_produto'] ?>">+</a>
             </div>
-
             <p>Subtotal: R$ <?= number_format($subtotal, 2, ',', '.') ?></p>
-
             <a class="btn btn-danger" href="?remover=<?= $row['id_produto'] ?>">Remover</a>
         </div>
         <?php endwhile; ?>
     </div>
-
     <h2>Total Geral: R$ <?= number_format($totalGeral, 2, ',', '.') ?></h2>
+
+    <?php
+    $frete = 15;
+    if ($totalGeral > 150) $frete = 0;
+    $totalComFrete = $totalGeral + $frete;
+    ?>
+    <h3>Frete: <?= $frete == 0 ? "Grátis 🎉" : "R$ " . number_format($frete, 2, ',', '.') ?></h3>
+    <h3>Total com Frete: R$ <?= number_format($totalComFrete, 2, ',', '.') ?></h3>
+
+<?php else: ?>
+    <p>Seu carrinho está vazio.</p>
 <?php endif; ?>
 
 <hr>
 
 <?php if ($totalGeral > 0): ?>
-
     <h2>🧾 Escolha a Forma de Pagamento</h2>
-
     <div style="display:flex; gap:20px; margin:20px 0;">
         <a href="?pagamento=pix" class="btn btn-success">Pix</a>
         <a href="?pagamento=credito" class="btn btn-primary">Crédito</a>
@@ -84,10 +99,7 @@ $totalGeral = 0;
         <a href="?pagamento=boleto" class="btn btn-dark">Boleto</a>
     </div>
 
-    <?php
-    $pagamento = $_GET['pagamento'] ?? null;
-    $juros = 0.02;
-    ?>
+    <?php $pagamento = $_GET['pagamento'] ?? null; ?>
 
     <?php if ($pagamento === "pix"): ?>
         <h3>Pagamento via PIX</h3>
@@ -116,36 +128,29 @@ $totalGeral = 0;
 
     <?php if ($pagamento === "credito"): ?>
         <h3>Cartão de Crédito</h3>
-
         <form method="post">
             <input type="text" name="numero" placeholder="Número" required>
             <input type="text" name="nome" placeholder="Nome" required>
             <input type="text" name="validade" placeholder="MM/AA" required>
             <input type="password" name="cvv" placeholder="CVV" required>
-
             <label>Parcelas:</label>
             <select name="parcelas">
                 <?php for ($i = 1; $i <= 12; $i++): ?>
-                    <option value="<?= $i ?>">
-                        <?= $i ?>x <?= $i <= 6 ? "sem juros" : "com juros" ?>
-                    </option>
+                    <option value="<?= $i ?>"><?= $i ?>x <?= $i <= 6 ? "sem juros" : "com juros" ?></option>
                 <?php endfor; ?>
             </select>
-
             <button class="btn btn-primary" name="pagar_credito">Pagar</button>
         </form>
-
         <?php if (isset($_POST['pagar_credito'])): ?>
             <?php
             $parc = intval($_POST['parcelas']);
-            $totalFinal = $parc <= 6 ? $totalGeral : $totalGeral * pow(1 + 0.02, $parc);
+            $totalFinal = $parc <= 6 ? $totalComFrete : $totalComFrete * pow(1.02, $parc);
             $valorParcela = $totalFinal / $parc;
             ?>
             <h3 style="color:green;">✔ Pagamento aprovado!</h3>
             <p><?= $parc ?>x de R$ <?= number_format($valorParcela, 2, ',', '.') ?></p>
             <p>Total: R$ <?= number_format($totalFinal, 2, ',', '.') ?></p>
         <?php endif; ?>
-
     <?php endif; ?>
 
 <?php endif; ?>
